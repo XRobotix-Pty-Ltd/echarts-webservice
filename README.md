@@ -1,58 +1,39 @@
-# Echarts 服务器端生成图片服务
+Latest Implementation of: ECharts server side rendering generates chart images using NodeJs and node canvas. 
 
+Installation:
 
-github地址：https://github.com/jessezhang007007/echarts-ssr-server
-
-Docker Hub 地址：https://hub.docker.com/r/jessezhang007007/echarts-ssr-server/
-
-
-## 一、说明：
-
-Echarts server side render by node canvas, generate chart image by Echarts.
-
-使用NodeJs服务器端渲染echarts图表，生成图片格式。
-
-## 二、安装
-
-### 方式一：使用Docker运行
+1. Docker run: 
 
 ```
-docker run -d -p 8081:8081 --name echarts-ssr-server --restart=always jessezhang007007/echarts-ssr-server
+docker build -t echarts-webservice . 
+docker run -d -p 8081:8081 --name echarts-webservice --restart=always echarts-webservice
 ```
 
+2. Local Node run: 
 
-### 方式二：本地Node运行
+* a. Install dependencies (instructions provided for different operating systems)
+* b. Download and install: 
 
-#### 1. 安装依赖
-
-操作系统 | 安装命令
------ | -----
-OS X | `brew install pkg-config cairo pango libpng jpeg giflib`
-Ubuntu | `sudo apt-get install libcairo2-dev libjpeg8-dev libpango1.0-dev libgif-dev build-essential g++`
-Fedora | `sudo yum install cairo cairo-devel cairomm-devel libjpeg-turbo-devel pango pango-devel pangomm pangomm-devel giflib-devel`
-Solaris | `pkgin install cairo pango pkg-config xproto renderproto kbproto xextproto`
-Windows | [Instructions on our wiki](https://github.com/Automattic/node-canvas/wiki/Installation---Windows)
-
-#### 2. 下载并安装
-
-```bash
-git clone git@github.com:jessezhang007007/echarts-ssr-server.git
-cd echarts-ssr-server
+```
+git clone git@github.com:XRobotix-Pty-Ltd/echarts-webservice.git
+cd echarts-webservice
 npm install
 npm start
 ```
 
+Accessing Service:
 
-## 三、访问服务
-### 1. 访问方式：使用http请求访问服务
+1. Access via http request
 
-### 2. 请求参数格式：
+2. Request parameter format: 
+
 ```javascript
 {
     "width": 800,
     "height": 500,
+    "renderer": "svg", // svg|canvas (default is canvas)    
     "option": {
-    	"backgroundColor": "#fff",
+        "backgroundColor": "#fff",
         "xAxis": {
             "type": "category",
             "data": [
@@ -86,23 +67,13 @@ npm start
 }
 ```
 
-参数JSON里的第一层属性说明：
-
-|属性名|类型|默认值|说明|
-|---|---|---|---|
-|width|Number|600|图片宽度|
-|height|Number|400|图片高度|
-|option|Object|{}|Echarts 的 Option 配置，参考Echarts文档|
-
-### 3. GET方式访问
-
-注意：GET方式只适合参数数据量小的情况，参数数据量大的时候请使用POST方式。
+3. GET request (only suitable for small parameter data): 
 
 ```
-http://localhost:8081/?config=%7B%22width%22%3A800%2C%22height%22%3A500%2C%22option%22%3A%7B%22backgroundColor%22%3A%22%23fff%22%2C%22xAxis%22%3A%7B%22type%22%3A%22category%22%2C%22data%22%3A%5B%22Mon%22%2C%22Tue%22%2C%22Wed%22%2C%22Thu%22%2C%22Fri%22%2C%22Sat%22%2C%22Sun%22%5D%7D%2C%22yAxis%22%3A%7B%22type%22%3A%22value%22%7D%2C%22series%22%3A%5B%7B%22data%22%3A%5B820%2C932%2C901%2C934%2C1290%2C1330%2C1320%5D%2C%22type%22%3A%22line%22%7D%5D%7D%7D
+http://localhost:8081/?config=%7B%22width%22%3A800%2C%22height%22%3A500%2C%20%22renderer%22%3A%22svg%22%2C%22option%22%3A%7B%22backgroundColor%22%3A%22%23fff%22%2C%22xAxis%22%3A%7B%22type%22%3A%22category%22%2C%22data%22%3A%5B%22Mon%22%2C%22Tue%22%2C%22Wed%22%2C%22Thu%22%2C%22Fri%22%2C%22Sat%22%2C%22Sun%22%5D%7D%2C%22yAxis%22%3A%7B%22type%22%3A%22value%22%7D%2C%22series%22%3A%5B%7B%22data%22%3A%5B820%2C932%2C901%2C934%2C1290%2C1330%2C1320%5D%2C%22type%22%3A%22line%22%7D%5D%7D%7D
 ```
 
-### 4. POST方式访问
+4. POST request: 
 
 ```
 curl -X POST \
@@ -111,8 +82,9 @@ curl -X POST \
   -d '{
     "width": 800,
     "height": 500,
+    "renderer": "svg", 
     "option": {
-    	"backgroundColor": "#fff",
+        "backgroundColor": "#fff",
         "xAxis": {
             "type": "category",
             "data": [
@@ -145,13 +117,3 @@ curl -X POST \
     }
 }'
 ```
-
-
-------
-广告
-------
-[超强接口管理工具：Apifox](https://www.apifox.cn/)
-
-[接口文档工具](https://www.apifox.cn/)
-
-[API文档工具](https://www.apifox.cn/)
